@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react';
 import WelcomeScreen from './components/WelcomeScreen'; 
 import ChatMenu from './components/ChatMenu';
 import ChatIA from './components/ChatIA'; 
-
 import ChatPDF from './components/ChatPDF'; 
 import ChatAgendamento from './components/ChatAgendamento'; 
+import TestChat from './components/TestChat'; 
 
 
 type ChatType = 'loading' | 'menu' | 'ia' | 'pdf' | 'agendamento';
