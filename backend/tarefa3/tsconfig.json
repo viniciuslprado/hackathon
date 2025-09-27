@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",           // Versão do JS que será gerada
+    "module": "commonjs",         // Módulo compatível com Node.js
+    "strict": true,               // Habilita verificações rigorosas
+    "esModuleInterop": true,      // Permite imports de módulos CommonJS
+    "skipLibCheck": true,         // Ignora checagem de tipos de libs
+    "outDir": "dist",             // Pasta de saída caso compile TS → JS
+    "rootDir": "."                // Pasta raiz do projeto
+  },
+  "include": ["prisma/**/*.ts"]   // Incluir todos os arquivos TS do Prisma
+}
