@@ -1,0 +1,42 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql" // ou mysql/sqlite
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Doctor {
+  id       Int                 @id @default(autoincrement())
+  name     String
+  specialty String
+  city     String
+  hours    DoctorAvailableHour[]
+  bookings Booking[]
+}
+
+model DoctorAvailableHour {
+  id       Int      @id @default(autoincrement())
+  weekday  Int
+  start    DateTime
+  end      DateTime
+  doctor   Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId Int
+}
+
+model Booking {
+  id           Int      @id @default(autoincrement())
+  protocol     String   @unique
+  slot         DateTime
+  doctorId     Int
+  doctor       Doctor   @relation(fields: [doctorId], references: [id])
+  
+  patientName  String
+  patientBirth DateTime
+  specialty    String
+  reason       String
+
+  createdAt    DateTime @default(now())
+}
