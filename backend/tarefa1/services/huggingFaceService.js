@@ -27,30 +27,30 @@ const contextoInstitucional = fs.readFileSync(contextPath, "utf-8");
  * @returns {Promise<string>} - Resposta gerada pela IA
  */
 async function askHuggingFace(question) {
-   try {
-      // Faz a chamada ao endpoint de chat da Hugging Face
-      const chatCompletion = await client.chatCompletion({
-         provider: "fireworks-ai", // Provedor que hospeda o modelo
-         model: "meta-llama/Llama-3.1-8B-Instruct", // Modelo utilizado
-         messages: [
-            {
-               role: "system", // Define o contexto institucional como instrução de sistema
-               content: contextoInstitucional,
-            },
-            {
-               role: "user", // Pergunta do usuário
-               content: question,
-            },
-         ],
-      });
+  try {
+    // Faz a chamada ao endpoint de chat da Hugging Face
+    const chatCompletion = await client.chatCompletion({
+      provider: "fireworks-ai", // Provedor que hospeda o modelo
+      model: "meta-llama/Llama-3.1-8B-Instruct", // Modelo utilizado
+      messages: [
+        {
+          role: "system", // Define o contexto institucional como instrução de sistema
+          content: contextoInstitucional,
+        },
+        {
+          role: "user", // Pergunta do usuário
+          content: question,
+        },
+      ],
+    });
 
-      // Retorna a resposta da IA (se existir), caso contrário "Sem resposta."
-      return chatCompletion.choices?.[0]?.message?.content || "Sem resposta.";
-   } catch (error) {
-      // Em caso de erro, loga no console e retorna mensagem de erro
-      console.error("Erro Hugging Face:", error);
-      return "Erro ao obter resposta da IA.";
-   }
+    // Retorna a resposta da IA (se existir), caso contrário "Sem resposta."
+    return chatCompletion.choices?.[0]?.message?.content || "Sem resposta.";
+  } catch (error) {
+    // Em caso de erro, loga no console e retorna mensagem de erro
+    console.error("Erro Hugging Face:", error);
+    return "Erro ao obter resposta da IA.";
+  }
 }
 
 // Exporta a função para ser utilizada em outros arquivos (ex.: rotas do Express)

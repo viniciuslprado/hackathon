@@ -1,11 +1,8 @@
 A busca da agenda disponível, pelo aplicativo, é realizada a partir de filtros como cidade, especialidade, médico (opcional) e data.
 
-
 As vagas disponíveis são exibidas para o beneficiário no aplicativo. 
 
-
 A reserva da agenda é feita mediante a seleção de dia, horário e profissional de preferência.
-
 
 Para conclusão do agendamento é necessário a confirmação dos dados do beneficiário. 
 
@@ -35,17 +32,12 @@ O agendamento via atendimento, oferece suporte humano, sendo mais indicado quand
 
 No atendimento via WhatsApp, o fornecimento das informações necessárias é realizado pelo beneficiário, incluindo CPF e dados a serem atualizados, como dados pessoais ou endereço.
 
-
 No atendimento via WhatsApp, a documentação comprobatória é enviada pelo beneficiário em formato de anexo.
-
 
 No atendimento via WhatsApp, a verificação das informações é realizada pelo atendente, mediante conferência dos documentos recebidos.
 
-
 No atendimento via WhatsApp, quando as informações estão corretas, como documentações e informações, a atualização é efetuada pelo atendente por meio do sistema CRM.
 
-
 No atendimento via WhatsApp, caso haja inconsistência nos dados ou na documentação, o beneficiário é informado pelo atendente no atendimento.
-
 
 No atendimento via WhatsApp, o tempo total estimado do processo varia entre 7 e 8 minutos, considerando todas as etapas.
