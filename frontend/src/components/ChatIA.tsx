@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback, useRef, useEffect, type KeyboardEvent } from 'react';
 
-// ... (Restante das Interfaces Message e Props ChatIAProps)
 interface ChatIAProps {
   onBack: () => void;           
   backendUrl: string;          
@@ -14,7 +13,6 @@ interface Message {
     time: string; 
 }
 const getTime = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-
 
 const ChatIA: React.FC<ChatIAProps> = ({ onBack, backendUrl }) => {
     const [inputQuestion, setInputQuestion] = useState<string>(''); 

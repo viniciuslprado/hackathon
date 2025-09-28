@@ -15,7 +15,7 @@ interface SessionData {
         specialty?: string;
         doctorId?: number;
         doctors?: Doctor[];
-        slot?: string; 
+        slot?: DateTime; 
         availableSlots?: string[]; 
         patientBirth?: string; 
         reason?: string;
@@ -33,7 +33,7 @@ function resetSession(sessionId: string): string {
     return "Bem-vindo ao agendamento! Qual é o seu **nome completo**?";
 }
 
-function formatSlots(slots: string[]): string {
+function formatSlots(slots: DateTime[]): DateTime {
     if (slots.length === 0) return "Nenhum horário disponível nos próximos dias. Digite 'recomeçar'.";
     
     const limitedSlots = slots.slice(0, 10); 
@@ -152,21 +152,24 @@ export async function handleChat(req: Request, res: Response) {
                 }
                 
                 session.data.slot = selectedSlotISO;
-                session.step = STEPS.GET_BIRTH;
-                reply = "Quase lá! Por favor, me informe a sua **data de nascimento** (AAAA-MM-DD).";
-                break;
+                session.step = STEPS.GET_BIRTH;
+                reply = "Quase lá! Por favor, me informe a sua **data de nascimento** (AAAA-MM-DD).";
+                break;
 
-            case STEPS.GET_BIRTH:
-                const birthDate = new Date(userMessage);
-                if (isNaN(birthDate.getTime())) {
-                    reply = "Data de nascimento inválida. Use o formato AAAA-MM-DD (ex: 1990-05-15).";
-                    break;
-                }
-                
-                session.data.patientBirth = userMessage;
-                session.step = STEPS.GET_REASON;
-                reply = "Qual o **motivo principal** da consulta?";
-                break;
+            case STEPS.GET_BIRTH:
+                // 🚀 CORREÇÃO 1: Validação de formato AAAA-MM-DD com Regex
+                const birthRegex = /^\d{4}-\d{2}-\d{2}$/; 
+                
+                if (!birthRegex.test(userMessage)) {
+                    reply = "Data de nascimento inválida. Por favor, use o formato **AAAA-MM-DD** (ex: 1990-05-15).";
+                    break; // Não avança o step
+                }
+                
+                // Removemos o new Date(userMessage) daqui, pois a conversão robusta vai para o Service.
+                session.data.patientBirth = userMessage;
+                session.step = STEPS.GET_REASON;
+                reply = "Qual o **motivo principal** da consulta?";
+                break;
                 
             case STEPS.GET_REASON:
                 if (!userMessage) {

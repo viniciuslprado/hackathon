@@ -1,15 +1,27 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" // ou "mysql" / "sqlite" conforme seu caso
   url      = env("DATABASE_URL")
+}
+
+model ProcedimentoSaude {
+  id                 Int      @id @default(autoincrement())
+  Código             Int
+  terminologia       String   // Terminologia de Procedimentos e Eventos em Saúde (Tab. 22)
+  correlacao         String  // Correlação (Sim/Não)
+  PROCEDIMENTO       String
+  resolucaoNormativa String?  // Resolução Normativa (alteração)
+  VIGÊNCIA           DateTime // VIGÊNCIA
+  OD                 String?
+  AMB                String?
+  HCO                String?
+  HSO                String?
+  PAC                String?
+  DUT                String?
+  SUBGRUPO           String
+  GRUPO              String
+  CAPÍTULO           String
 }
