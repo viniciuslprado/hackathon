@@ -1,42 +1,51 @@
-// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql" // ou mysql/sqlite
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+// 1. Especialidades (Para busca inicial)
+model Specialty {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  doctors Doctor[]
 }
 
+// 2. Médicos
 model Doctor {
   id       Int                 @id @default(autoincrement())
   name     String
-  specialty String
-  city     String
-  hours    DoctorAvailableHour[]
-  bookings Booking[]
+  crm              String             @unique
+  city           String?
+  specialtyId  Int
+  specialty        Specialty      @relation(fields: [specialtyId], references: [id])
+  availableHours   AvailableHour[]
+  bookings         Booking[]
 }
 
-model DoctorAvailableHour {
-  id       Int      @id @default(autoincrement())
-  weekday  Int
-  start    DateTime
-  end      DateTime
-  doctor   Doctor   @relation(fields: [doctorId], references: [id])
-  doctorId Int
+// 3. Available Slot (Horário Disponível Real)
+model AvailableHour {
+  id          Int         @id @default(autoincrement())
+  doctorId    Int
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+  dateTime    DateTime    
+  isAvailable Boolean     @default(true) 
+  booking     Booking?    
 }
 
+// 4. Booking (Agendamento Efetivado)
 model Booking {
-  id           Int      @id @default(autoincrement())
-  protocol     String   @unique
-  slot         DateTime
-  doctorId     Int
-  doctor       Doctor   @relation(fields: [doctorId], references: [id])
-  
-  patientName  String
-  patientBirth DateTime
-  specialty    String
-  reason       String
-
-  createdAt    DateTime @default(now())
+  id                  Int                @id @default(autoincrement())
+  protocol            String             @unique // Confirmation protocol
+  availableHourId     Int                @unique // Ensures 1 slot has 1 booking
+  availableHour       AvailableHour      @relation(fields: [availableHourId], references: [id])
+  patientName         String
+  patientBirth        DateTime
+  reasonConsultation  String
+  doctorId            Int
+  doctor              Doctor             @relation(fields: [doctorId], references: [id])
+  createdAt           DateTime           @default(now())
 }

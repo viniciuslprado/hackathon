@@ -3,25 +3,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // ou "mysql" / "sqlite" conforme seu caso
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model ProcedimentoSaude {
-  id                 Int      @id @default(autoincrement())
-  Código             Int
-  terminologia       String   // Terminologia de Procedimentos e Eventos em Saúde (Tab. 22)
-  correlacao         String  // Correlação (Sim/Não)
-  PROCEDIMENTO       String
-  resolucaoNormativa String?  // Resolução Normativa (alteração)
-  VIGÊNCIA           String? // VIGÊNCIA
-  OD                 String?
-  AMB                String?
-  HCO                String?
-  HSO                String?
-  PAC                String?
-  DUT                String?
-  SUBGRUPO           String
-  GRUPO              String
-  CAPÍTULO           String
+model procedimento {
+  id                                                         Int     @id(map: "ProcedimentoSaude_pkey") @default(autoincrement())
+  Código                                                    Int?
+  Terminologia_de_Procedimentos_e_Eventos_em_Sa_de__Tab__22_ String? @map("Terminologia de Procedimentos e Eventos em Saúde (Tab. 22)")
+  Correla__o_Sim_N_o_                                        String? @map("Correlação(Sim/Não)")
+  PROCEDIMENTO                                               String?
+  Resolu__oNormativa__altera__o_                             String? @map("ResoluçãoNormativa (alteração)")
+  VIGÊNCIA                                                  String?
+  OD                                                         String?
+  AMB                                                        String?
+  HCO                                                        String?
+  HSO                                                        String?
+  PAC                                                        String?
+  DUT                                                        String?
+  SUBGRUPO                                                   String?
+  GRUPO                                                      String?
+  CAPÍTULO                                                  String?
+  auditoria                                                  Int?
 }

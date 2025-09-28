@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import multer from "multer";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -11,7 +12,7 @@ interface Procedure {
   id: number;
   Código: number;
   PROCEDIMENTO: string;
-  auditoria?: number; // 0 = sem auditoria, 5 = 5 dias, 10 = 10 dias
+  auditoria: number; // 0 = sem auditoria, 5 = 5 dias, 10 = 10 dias
 }
 
 interface Decision {
@@ -21,9 +22,25 @@ interface Decision {
   estimated_days?: number;
 }
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ 
+  dest: "uploads/",
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB
+    files: 1
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  }
+});
+
 const app = express();
-app.use(express.json());
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Inicializar Prisma Client
 const prisma = new PrismaClient();
@@ -49,28 +66,13 @@ function normalizeText(s: string): string {
 }
 
 async function getProcedures(): Promise<Procedure[]> {
-  const procedures = await prisma.procedimentoSaude.findMany({
-    select: {
-      id: true,
-      Código: true,
-      PROCEDIMENTO: true
-    }
-  });
+  // Buscando procedimentos da tabela procedimento
+  const procedures = await prisma.$queryRaw<Procedure[]>`
+    SELECT id, "Código", "PROCEDIMENTO", auditoria
+    FROM "procedimento"
+  `;
   
-  // Mapear para incluir lógica de auditoria baseada no código
-  return procedures.map(proc => ({
-    ...proc,
-    auditoria: getAuditoriaByCode(proc.Código)
-  }));
-}
-
-function getAuditoriaByCode(codigo: number): number {
-  // Lógica para determinar auditoria baseada no código
-  // Você pode ajustar esta lógica conforme suas regras de negócio
-  if (codigo >= 10000000 && codigo < 20000000) return 0; // Autorização automática
-  if (codigo >= 20000000 && codigo < 30000000) return 5; // 5 dias de auditoria
-  if (codigo >= 30000000) return 10; // 10 dias de auditoria
-  return 0; // Default: autorização automática
+  return procedures;
 }
 
 function decide(proc: Procedure): Decision {
@@ -85,43 +87,159 @@ function decide(proc: Procedure): Decision {
       reason: `Encaminhado para auditoria (${proc.auditoria} dias úteis).`
     };
   }
-  return { audit_required: false, authorized: false, reason: "Valor inválido no campo auditoria." };
+  return { audit_required: false, authorized: false, reason: "Procedimento requer análise especial." };
 }
+
+app.get("/api/health", async (req: Request, res: Response) => {
+  try {
+    // Testar conexão com o banco
+    const count = await prisma.$queryRaw<[{count: bigint}]>`SELECT COUNT(*) as count FROM "procedimento"`;
+    
+    return res.json({
+      status: "OK",
+      message: "Servidor funcionando",
+      database: "Conectado",
+      procedures_count: Number(count[0].count),
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "ERROR",
+      message: "Erro no servidor",
+      database: "Erro de conexão",
+      error: error instanceof Error ? error.message : "Erro desconhecido",
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Middleware para tratar erros do multer
+app.use((error: any, req: Request, res: Response, next: any) => {
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ error: 'Arquivo muito grande. Máximo 10MB.' });
+    }
+    if (error.code === 'LIMIT_FILE_COUNT') {
+      return res.status(400).json({ error: 'Muitos arquivos. Envie apenas um arquivo.' });
+    }
+  }
+  if (error.message === 'Apenas arquivos PDF, PNG ou JPEG são permitidos') {
+    return res.status(400).json({ error: error.message });
+  }
+  console.error('Erro do multer:', error);
+  res.status(500).json({ error: 'Erro ao processar upload.' });
+});
 
 // --- Endpoint principal ---
 app.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
-  if (!req.file) return res.status(400).json({ error: "Arquivo é obrigatório." });
+  try {
+    if (!req.file) return res.status(400).json({ error: "Arquivo é obrigatório." });
 
-  let text = await extractTextFromPdf(req.file.path);
-  if (!text || text.length < 30) {
-    text = await ocrFile(req.file.path);
-  }
+    let text = await extractTextFromPdf(req.file.path);
+    if (!text || text.length < 30) {
+      text = await ocrFile(req.file.path);
+    }
 
-  const normalized = normalizeText(text);
-  const procedures = await getProcedures();
+    const normalized = normalizeText(text);
+    console.log('Texto extraído:', text.substring(0, 200) + '...');
+    console.log('Texto normalizado:', normalized.substring(0, 200) + '...');
+    
+    const procedures = await getProcedures();
+    console.log('Total de procedimentos encontrados:', procedures.length);
+    console.log('Primeiros 3 procedimentos:', procedures.slice(0, 3).map(p => ({
+      id: p.id,
+      codigo: p.Código,
+      name: p.PROCEDIMENTO,
+      auditoria: p.auditoria
+    })));
 
-  const fuse = new Fuse(procedures, {
-    keys: ["PROCEDIMENTO", "Código"],
-    threshold: 0.35,
-    includeScore: true
-  });
+    const fuse = new Fuse(procedures, {
+      keys: ["PROCEDIMENTO"],
+      threshold: 0.4,
+      includeScore: true,
+      minMatchCharLength: 3
+    });
 
-  // 1) substring
-  let best: Procedure | null =
-    procedures.find(p => normalized.includes(normalizeText(p.PROCEDIMENTO))) || null;
+    // 1) Filtrar procedimentos com nome válido (não vazios ou "---")
+    const validProcedures = procedures.filter(p => 
+      p.PROCEDIMENTO && 
+      p.PROCEDIMENTO.trim() !== '' && 
+      p.PROCEDIMENTO.trim() !== '---' &&
+      p.PROCEDIMENTO.length > 2
+    );
+    
+    console.log('Procedimentos válidos:', validProcedures.length);
 
-  // 2) fuzzy
+    // 2) substring search nos procedimentos válidos
+    let best: Procedure | null = null;
+    
+    // Primeiro, tentar buscar por palavras-chave importantes
+    const keywords = normalized.split(' ').filter(word => word.length > 3);
+    console.log('Palavras-chave extraídas:', keywords.slice(0, 10));
+    
+    for (const proc of validProcedures) {
+      const procNormalized = normalizeText(proc.PROCEDIMENTO);
+      
+      // Buscar por substring direta
+      if (normalized.includes(procNormalized) || procNormalized.includes(normalized)) {
+        best = proc;
+        console.log('Match encontrado por substring:', proc.PROCEDIMENTO);
+        break;
+      }
+      
+      // Buscar por palavras-chave
+      const matchedKeywords = keywords.filter(keyword => 
+        procNormalized.includes(keyword) || keyword.includes(procNormalized)
+      );
+      
+      if (matchedKeywords.length >= 2) { // Se pelo menos 2 palavras-chave coincidirem
+        best = proc;
+        console.log('Match encontrado por palavras-chave:', proc.PROCEDIMENTO, 'Keywords:', matchedKeywords);
+        break;
+      }
+    }
+
+    // 3) fuzzy search mais flexível se não encontrou
+    if (!best) {
+      const fuseValid = new Fuse(validProcedures, {
+        keys: ["PROCEDIMENTO"],
+        threshold: 0.6, // Mais flexível
+        includeScore: true,
+        minMatchCharLength: 2,
+        distance: 100
+      });
+      
+      // Buscar por palavras-chave individuais se o texto completo não der resultado
+      let results = fuseValid.search(normalized);
+      
+      if (results.length === 0 && keywords.length > 0) {
+        // Tentar com palavras-chave individuais
+        for (const keyword of keywords.slice(0, 5)) { // Top 5 palavras-chave
+          results = fuseValid.search(keyword);
+          if (results.length > 0) {
+            console.log(`Match encontrado buscando por palavra-chave: "${keyword}"`);
+            break;
+          }
+        }
+      }
+      
+      if (results.length > 0) {
+        best = results[0].item;
+        console.log('Match encontrado por fuzzy search:', best.PROCEDIMENTO, 'Score:', results[0].score);
+      }
+    }
+
   if (!best) {
-    const result = fuse.search(normalized);
-    if (result.length > 0) best = result[0].item;
-  }
-
-  if (!best) {
+    console.log('❌ Nenhum procedimento encontrado!');
+    console.log('Texto buscado:', normalized.substring(0, 100));
+    console.log('Palavras-chave tentadas:', keywords.slice(0, 5));
     return res.json({
       found: false,
       message: "Procedimento não identificado no banco."
     });
   }
+
+  console.log('✅ Procedimento encontrado:', best.PROCEDIMENTO, 'Auditoria:', best.auditoria);
 
   const decision = decide(best);
 
@@ -135,10 +253,22 @@ app.post("/api/upload", upload.single("file"), async (req: Request, res: Respons
     },
     ...decision
   });
+  } catch (error) {
+    console.error('Erro no endpoint /api/upload:', error);
+    res.status(500).json({ 
+      error: "Erro interno do servidor",
+      message: error instanceof Error ? error.message : "Erro desconhecido"
+    });
+  } finally {
+    // Limpar arquivo temporário se existir
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+  }
 });
 
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+app.listen(3060, () => {
+  console.log("Servidor rodando na porta 3060");
 });
 
 // Graceful shutdown
