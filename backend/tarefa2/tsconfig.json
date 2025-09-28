@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",             // gera CommonJS modules
+    "moduleResolution": "node",       // resolução padrão de módulos
+    "target": "ES2020",
+    "esModuleInterop": true,          // compatibilidade com CommonJS
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "ts-node": {
+    "esm": false
+  }
+}

@@ -14,7 +14,7 @@ model ProcedimentoSaude {
   correlacao         String  // Correlação (Sim/Não)
   PROCEDIMENTO       String
   resolucaoNormativa String?  // Resolução Normativa (alteração)
-  VIGÊNCIA           DateTime // VIGÊNCIA
+  VIGÊNCIA           String? // VIGÊNCIA
   OD                 String?
   AMB                String?
   HCO                String?
