@@ -65,8 +65,8 @@ const ChatPDF: React.FC<ChatProps> = ({ onBack, backendUrl }) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            // Enviar para o backend na porta 3060
-            const response = await fetch(`${backendUrl.replace(':3000', ':3060')}/api/upload`, {
+            // Enviar para o backend na porta 3030
+            const response = await fetch(`${backendUrl.replace(':3000', ':3030')}/api/upload`, {
                 method: 'POST',
                 body: formData,
             });

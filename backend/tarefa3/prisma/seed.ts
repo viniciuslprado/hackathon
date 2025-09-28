@@ -59,7 +59,6 @@ async function main() {
   // 1. Criar Especialidades
   const cardiologia = await prisma.specialty.create({ data: { name: 'Cardiologia' } });
   const dermatologia = await prisma.specialty.create({ data: { name: 'Dermatologia' } });
-  const pediatria = await prisma.specialty.create({ data: { name: 'Pediatria' } });
 
   console.log('Especialidades criadas.');
 

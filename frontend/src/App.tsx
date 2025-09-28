@@ -10,7 +10,7 @@ import ChatPDF from './components/ChatPDF';
 import ChatAgendamento from './components/ChatAgendamento'; 
 
 // Variável definida no escopo do MÓDULO
-const BACKEND_URL_DEFAULT = "http://localhost:3060"; 
+const BACKEND_URL_DEFAULT = "http://localhost:3000"; 
 
 // Tipos de telas da aplicação
 type AppScreenType = 'loading' | 'menu' | SelectableChatType; 

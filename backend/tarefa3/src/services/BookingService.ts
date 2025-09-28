@@ -26,6 +26,13 @@ export class BookingService {
     }
 
     /**
+     * Obtém médicos por especialidade.
+     */
+    async getDoctorsBySpecialty(specialtyId: number): Promise<{ id: number; name: string; crm: string }[]> {
+        return this.bookingRepository.getDoctorsBySpecialty(specialtyId);
+    }
+
+    /**
      * Obtém horários disponíveis e os agrupa por data.
      */
     async getGroupedAvailableSlots(specialtyId: number): Promise<Record<string, AvailableSlotData[]>> {

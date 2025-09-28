@@ -19,18 +19,17 @@ interface MenuItem {
 
 // Definições de Cores
 const PRIMARY_COLOR = 'indigo-700'; // Roxo Escuro
-const SECONDARY_COLOR = 'emerald-700'; // Verde Escuro
 
 // DADOS DOS SERVIÇOS
 const menuItems: MenuItem[] = [
-    { type: 'ia', title: 'Chat IA', subtitle: 'Perguntas e informações gerais', icon: FaRobot },
-    { type: 'agendamento', title: 'Agendamento', subtitle: 'Consultas médicas e protocolo', icon: FaCalendarAlt },
+    { type: 'ia', title: 'Chat IA', subtitle: 'Assistente virtual inteligente', icon: FaRobot },
     { type: 'pdf', title: 'Leitor PDF', subtitle: 'Consultar documentos e exames', icon: FaFilePdf },
+    { type: 'agendamento', title: 'Agendamento', subtitle: 'Consultas médicas e protocolo', icon: FaCalendarAlt },
 ];
 
 // --- Subcomponente do Botão de Menu (CORRIGIDO) ---
 // Passamos explicitamente todas as props para evitar a quebra de tipagem
-const MenuButton: React.FC<MenuItem & { onClick: () => void }> = ({ title, subtitle, icon: IconComponent, onClick, type }) => (
+const MenuButton: React.FC<Omit<MenuItem, 'type'> & { onClick: () => void }> = ({ title, subtitle, icon: IconComponent, onClick }) => (
     <button
         onClick={onClick}
         // Design do Botão: Fundo Branco, Sombra suave, Hover com Borda Roxa
@@ -71,7 +70,6 @@ const ChatMenu: React.FC<ChatMenuProps> = ({ onSelectChat }) => {
                         title={item.title}
                         subtitle={item.subtitle}
                         icon={item.icon}
-                        type={item.type} // Passamos o tipo para satisfazer o MenuButton
                         onClick={() => onSelectChat(item.type)} 
                     />
                 ))}

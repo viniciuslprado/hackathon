@@ -42,6 +42,25 @@ export class BookingRepository {
     }
 
     /**
+     * Busca médicos por especialidade.
+     */
+    async getDoctorsBySpecialty(specialtyId: number): Promise<{ id: number; name: string; crm: string }[]> {
+        return prisma.doctor.findMany({
+            where: {
+                specialtyId: specialtyId,
+            },
+            select: {
+                id: true,
+                name: true,
+                crm: true,
+            },
+            orderBy: {
+                name: 'asc',
+            },
+        });
+    }
+
+    /**
      * Busca horários disponíveis em um intervalo de 30 dias para uma especialidade.
      */
     async getAvailableSlots(specialtyId: number): Promise<AvailableSlotData[]> {

@@ -26,17 +26,46 @@ export class BookingController {
         }
     }
     /**
+     * Rota GET /doctors?specialtyId=X
+     */
+    async getDoctorsBySpecialty(req: Request, res: Response): Promise<Response> {
+        const specialtyId = req.query.specialtyId as string;
+        
+        console.log('🔍 Buscando médicos para specialtyId:', specialtyId);
+
+        if (!specialtyId || isNaN(parseInt(specialtyId))) {
+            console.log('❌ specialtyId inválido:', specialtyId);
+            return res.status(400).json({ error: 'specialtyId inválido ou ausente.' });
+        }
+
+        try {
+            const doctors = await bookingService.getDoctorsBySpecialty(parseInt(specialtyId));
+            console.log('✅ Médicos encontrados:', doctors.length, doctors);
+            return res.json(doctors);
+        } catch (error) {
+            console.error('❌ Erro ao buscar médicos:', error);
+            return res.status(500).json({ error: 'Erro interno do servidor ao buscar médicos.' });
+        }
+    }
+
+    /**
      * Rota GET /schedules?specialtyId=X
      */
     async getAvailableSchedules(req: Request, res: Response): Promise<Response> {
         const specialtyId = req.query.specialtyId as string;
+        const doctorId = req.query.doctorId as string;
+
+        console.log('📅 Buscando horários para:', { specialtyId, doctorId });
 
         if (!specialtyId || isNaN(parseInt(specialtyId))) {
+            console.log('❌ specialtyId inválido:', specialtyId);
             return res.status(400).json({ error: 'specialtyId inválido ou ausente.' });
         }
 
         try {
             const groupedSlots = await bookingService.getGroupedAvailableSlots(parseInt(specialtyId));
+            
+            console.log('✅ Horários encontrados:', Object.keys(groupedSlots).length, 'dias com horários');
             
             // Lógica para informar que não há vagas (Requisito da tarefa)
             if (Object.keys(groupedSlots).length === 0) {
@@ -46,7 +75,7 @@ export class BookingController {
             return res.json({ message: 'Agendas encontradas.', schedules: groupedSlots });
 
         } catch (error) {
-            console.error('Erro ao buscar agendas:', error);
+            console.error('❌ Erro ao buscar agendas:', error);
             return res.status(500).json({ error: 'Erro interno do servidor ao buscar agendas.' });
         }
     }

@@ -8,7 +8,10 @@ const bookingController = new BookingController();
 // 1. Listar Especialidades
 router.get('/specialties', bookingController.getSpecialties.bind(bookingController));
 
-// 2. Listar Agendas Disponíveis (Busca por Especialidade)
+// 2. Listar Médicos por Especialidade
+router.get('/doctors', bookingController.getDoctorsBySpecialty.bind(bookingController));
+
+// 3. Listar Agendas Disponíveis (Busca por Especialidade)
 router.get('/schedules', bookingController.getAvailableSchedules.bind(bookingController));
 
 // 3. Efetivar Agendamento (POST)
