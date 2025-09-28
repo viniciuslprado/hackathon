@@ -17,7 +17,6 @@ const getTime = () => new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', 
 
 // Definições de Cores
 const PRIMARY_COLOR = 'indigo-700'; // Roxo Escuro
-const SECONDARY_COLOR = 'emerald-500'; // Verde Principal
 
 const ChatPDF: React.FC<ChatProps> = ({ onBack, backendUrl }) => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -65,8 +64,8 @@ const ChatPDF: React.FC<ChatProps> = ({ onBack, backendUrl }) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            // Enviar para o backend na porta 3030
-            const response = await fetch(`${backendUrl.replace(':3000', ':3030')}/api/upload`, {
+            // Enviar para o backend na porta 3060
+            const response = await fetch(`${backendUrl.replace(':3000', ':3060')}/api/upload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -190,7 +189,7 @@ O procedimento mencionado no documento não foi encontrado em nossa base de dado
             <div className="p-4 bg-gray-100 flex items-center border-t border-gray-300">
                 <label htmlFor="pdf-upload" className="w-full">
                     <div className={`text-center p-3 text-white font-bold rounded-full transition 
-                        ${isLoading ? 'bg-indigo-400' : `bg-${SECONDARY_COLOR} hover:bg-emerald-600 cursor-pointer`}`}>
+                        ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-emerald-500 hover:bg-emerald-600 cursor-pointer'}`}>
                         {isLoading ? (
                             <FaSpinner className="animate-spin inline-block mr-2" />
                         ) : (

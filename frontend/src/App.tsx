@@ -37,7 +37,7 @@ function App() {
                 return <ChatIA onBack={returnToMenu} backendUrl="http://localhost:3000" />;
             
             case 'pdf':
-                return <ChatPDF onBack={returnToMenu} backendUrl={BACKEND_URL_DEFAULT} />;
+                return <ChatPDF onBack={returnToMenu} backendUrl="http://localhost:3060" />;
 
             case 'agendamento':
                 return <ChatAgendamento onBack={returnToMenu} backendUrl="http://localhost:3030" />;
