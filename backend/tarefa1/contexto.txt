@@ -1,8 +1,11 @@
 A busca da agenda disponível, pelo aplicativo, é realizada a partir de filtros como cidade, especialidade, médico (opcional) e data.
 
+
 As vagas disponíveis são exibidas para o beneficiário no aplicativo. 
 
+
 A reserva da agenda é feita mediante a seleção de dia, horário e profissional de preferência.
+
 
 Para conclusão do agendamento é necessário a confirmação dos dados do beneficiário. 
 
@@ -32,12 +35,130 @@ O agendamento via atendimento, oferece suporte humano, sendo mais indicado quand
 
 No atendimento via WhatsApp, o fornecimento das informações necessárias é realizado pelo beneficiário, incluindo CPF e dados a serem atualizados, como dados pessoais ou endereço.
 
+
 No atendimento via WhatsApp, a documentação comprobatória é enviada pelo beneficiário em formato de anexo.
+
 
 No atendimento via WhatsApp, a verificação das informações é realizada pelo atendente, mediante conferência dos documentos recebidos.
 
+
 No atendimento via WhatsApp, quando as informações estão corretas, como documentações e informações, a atualização é efetuada pelo atendente por meio do sistema CRM.
+
 
 No atendimento via WhatsApp, caso haja inconsistência nos dados ou na documentação, o beneficiário é informado pelo atendente no atendimento.
 
+
 No atendimento via WhatsApp, o tempo total estimado do processo varia entre 7 e 8 minutos, considerando todas as etapas.
+
+Na contestação de cobrança, o processo pode ser iniciado presencialmente, via e-mail ou WhatsApp.
+
+
+Na contestação de cobrança, os dados referentes à cobrança são solicitados pelo atendente, incluindo boleto e identificação do procedimento questionado.
+
+
+Na contestação de cobrança, o registro do atendimento é realizado no sistema ERP, com a informação do beneficiário e da competência da cobrança.
+
+
+Na contestação de cobrança, um protocolo é fornecido ao paciente, podendo ser repassado verbalmente ou por escrito.
+
+
+Na contestação de cobrança, os dados coletados pelo atendente são enviados por e-mail ao setor de contas médicas.
+
+
+Na contestação de cobrança, após os dados serem coletados pelo atendente, o processo entra em espera até o retorno da análise das contas médicas.
+
+Na contestação de cobrança, quando a cobrança é considerada válida, o comprovante do procedimento é enviado ao paciente por e-mail ou WhatsApp.
+
+Na contestação de cobrança, quando a cobrança é considerada indevida, o atendente entra em contato com o cliente para verificar a forma de desconto desejada.
+
+Na contestação de cobrança, quando a cobrança é considerada indevida e o desconto é aplicado na fatura atual, é solicitada a presença do cliente na tesouraria.
+
+Na contestação de cobrança, quando a cobrança é considerada indevida e o desconto é aplicado em faturas futuras, o setor financeiro é informado por meio do encaminhamento do e-mail de contas médicas com a forma de desconto definida.
+
+Na solicitação de documentos do plano de maioridade, o atendimento é iniciado presencialmente, com a apresentação de RG, CPF e comprovante de matrícula e frequência.
+
+
+Na solicitação de documentos do plano de maioridade, o atendente realiza cópias utilizando a fotocopiadora.
+
+
+Na solicitação de documentos do plano de maioridade, o registro do atendimento é feito no sistema ERP Solus.
+
+
+Na solicitação de documentos do plano de maioridade, um protocolo em papel físico é entregue ao solicitante.
+
+
+Na solicitação de documentos do plano de maioridade, uma vez ao dia, os protocolos são registrados em planilha de Excel, seguindo a sequência definida.
+
+
+Na solicitação de documentos do plano de maioridade, os documentos são levados pessoalmente ao setor de cadastro.
+
+
+Na solicitação de documentos do plano de maioridade, quando os documentos não estão corretos, o setor de cadastro informa ao atendimento quais ajustes devem ser feitos.
+
+
+Na solicitação de documentos do plano de maioridade, o atendente entra em contato com o cliente por telefone ou WhatsApp para solicitar a correção dos documentos.
+
+
+Na solicitação de documentos do plano de maioridade, quando todos os documentos estão corretos, o processo segue para a etapa de aguardar o beneficiário.
+Na solicitação de 2ª via, o beneficiário acessa a plataforma pelo site ou aplicativo, realizando login.
+Na solicitação de 2ª via, o beneficiário seleciona o menu financeiro na plataforma.
+Na solicitação de 2ª via, o beneficiário seleciona a competência desejada na plataforma para a emissão.
+Na solicitação de 2ª via, o beneficiário clica na opção de impressão da segunda via.
+
+Na solicitação de procedimento, as informações podem ser fornecidas via WhatsApp ou presencialmente.
+
+
+Na solicitação de procedimento, o atendimento é registrado no sistema, incluindo nome do beneficiário, médico solicitante e código do procedimento.
+
+
+Na solicitação de procedimento, quando há necessidade de auditoria, o beneficiário é informado sobre o número do protocolo da solicitação e os prazos de retorno (10 dias para OPME e 5 dias para os demais).
+
+
+Na solicitação de procedimento, quando há necessidade de auditoria, o beneficiário pode acompanhar o status da guia por meio de aplicativo, ligação ou WhatsApp.
+
+Na solicitação de procedimento, quando não há necessidade de auditoria, é verificado diretamente se o procedimento tem cobertura.
+Na solicitação de procedimento, quando não há necessidade de auditoria e o procedimento tem cobertura, o beneficiário é informado sobre o protocolo e o motivo da negativa.
+
+
+Na solicitação de procedimento, quando não há necessidade de auditoria e o procedimento não tem cobertura, o beneficiário é informado sobre o número do protocolo e da guia.
+
+
+Na solicitação de procedimento, quando a auditoria confirma a cobertura, o beneficiário é informado sobre o número do protocolo e da guia.
+
+
+Na solicitação de procedimento, quando a auditoria nega a cobertura, o beneficiário é informado sobre o protocolo e o motivo da negativa.
+
+Na troca de titularidade, a solicitação é realizada presencialmente.
+
+
+Na troca de titularidade, os documentos são solicitados, incluindo RG, CPF, certidão de óbito (quando aplicável) e comprovante de endereço.
+
+
+Na troca de titularidade, o documento padrão é impresso pelo atendimento a partir da pasta do servidor.
+
+
+Na troca de titularidade, o documento padrão é assinado pelo cliente, sendo necessária a assinatura de ambos os titulares quando o atual e o futuro estão vivos.
+
+
+Na troca de titularidade, é realizada a cópia dos documentos por meio de fotocopiadora.
+
+
+Na troca de titularidade, o atendimento é registrado no sistema ERP Solus.
+
+
+Na troca de titularidade, o protocolo é entregue ao cliente em via física.
+
+
+Na troca de titularidade, o documento é registrado na planilha de Excel, seguindo a sequência de protocolos, procedimento realizado uma vez ao dia.
+
+
+Na troca de titularidade, os documentos são levados presencialmente ao setor de cadastro.
+
+
+Na troca de titularidade, quando os documentos estão corretos, o processo é finalizado.
+
+
+Na troca de titularidade, quando os documentos não estão corretos, o atendimento é informado sobre quais documentos precisam de correção.
+
+
+Na troca de titularidade, o cliente é solicitado a providenciar os documentos corretos, sendo informado via telefone ou WhatsApp.
