@@ -135,9 +135,9 @@ npm run dev
 
 A aplicação estará disponível em:
 - Frontend: `http://localhost:5173`
-- Backend Chat IA: `http://localhost:3001`
-- Backend PDF: `http://localhost:3002`
-- Backend Agendamento: `http://localhost:3003`
+- Backend Chat IA: `http://localhost:3000`
+- Backend PDF: `http://localhost:3060`
+- Backend Agendamento: `http://localhost:3030`
 
 ## 🎯 Como Usar
 
