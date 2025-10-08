@@ -1,4 +1,4 @@
-# 🏥 Sistema de Agendamento Médico - DevUnity
+# 🏥 Sistema de Agendamento Médico - Health Unity
 
 ## 📋 Descrição do Projeto
 
