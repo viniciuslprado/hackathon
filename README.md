@@ -35,6 +35,13 @@ O Sistema de Agendamento Médico é uma aplicação completa desenvolvida durant
 - **Fuse.js** - Busca fuzzy
 - **Date-fns** - Manipulação de datas
 
+## 👥 Equipe DevUnity
+
+[@gi-cardoso](https://github.com/gi-cardoso)
+[@Duda-dorigan](https://github.com/Duda-dorigan)
+[@lanacarol](https://github.com/lanacarol)
+[@viniciuslprado](https://github.com/viniciuslprado)
+
 ## ⚙️ Configuração do Ambiente
 
 ### Pré-requisitos
@@ -55,7 +62,8 @@ cd hackathon
 #### Tarefa 1 - Chat IA
 ```bash
 cd backend/tarefa1
-npm install```
+npm install
+```
 
 Crie um arquivo `.env`:
 ```env
@@ -188,21 +196,6 @@ npm run dev      # Desenvolvimento
 npm run seed     # Popular banco de dados
 ```
 
-## 🤝 Contribuição
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
 ## 📝 Licença
 
 Este projeto foi desenvolvido durante o hackathon Uni-facef 2025  e está disponível sob a licença MIT.
-
-## 👥 Equipe DevUnity
-
-[@gi-cardoso](https://github.com/gi-cardoso)
-[@Duda-dorigan](https://github.com/Duda-dorigan)
-[@lanacarol](https://github.com/lanacarol)
-[@viniciuslprado](https://github.com/viniciuslprado)
